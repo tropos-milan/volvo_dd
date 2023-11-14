@@ -41,7 +41,7 @@ class SparqlRunner:
     def build_sql_query(self, resource_uri):
         result = self.get_first_result(resource_uri)
         if result:
-            return f"SELECT * FROM {result['database']}.{result['schema']}.{result['table']} limit 100000"
+            return f"SELECT * FROM {result['database']}.{result['schema']}.{result['table']} limit 1000"
         else:
             return "No valid result to build SQL query."
 
@@ -66,8 +66,8 @@ class SparqlRunner:
         snow = SnowflakeConnector()
         df = snow.query_data(query)
 
-        df2 = df[[y]].tail(1000)
-        df1 = df[['timestamp']].tail(1000)
+        df2 = df[[y]]
+        df1 = df[['timestamp']]
         df_combined = pd.concat([df1, df2], axis=1)
 
         # Plotting
